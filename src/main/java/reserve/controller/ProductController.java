@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,7 +54,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/Product")
-	public ResponseEntity<Object> getBoardGames() {
+	public ResponseEntity<Object> getProduct() {
 
 		try {
 			List<Product> ProductList = productRepository.findAllProduct();
@@ -85,7 +84,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/Product/{productid}")
-	public ResponseEntity<Object> getBoardGameById(@PathVariable("productid") Long productid) {
+	public ResponseEntity<Object> getProductById(@PathVariable("productid") Long productid) {
 
 		try {
 
@@ -124,7 +123,7 @@ public class ProductController {
 				return new ResponseEntity<>("Delete Product Success.", HttpStatus.OK);
 
 			} else {
-				return new ResponseEntity<>("Board Product Found.", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("Product not Found.", HttpStatus.BAD_REQUEST);
 			}
 
 		} catch (Exception e) {
