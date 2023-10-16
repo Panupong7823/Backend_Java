@@ -26,7 +26,7 @@ public class Product {
     private String detail;
 
     @ManyToOne
-    @JoinColumn(name = "userID")
+    @JoinColumn(name = "userid")
     private User user;
 
   
@@ -34,63 +34,78 @@ public class Product {
         
     }
 
-    public Product(Long productid, String productname, String price, byte[] photoData, String detail, User user) {
-        super();
-        this.productid = productid;
-        this.productname = productname;
-        this.price = price;
-        this.photoData = photoData;
-        this.detail = detail;
-        this.user = user;
-    }
+	public Product(Long productid, String productname, String price, byte[] photoData, String detail, User user) {
+		super();
+		this.productid = productid;
+		this.productname = productname;
+		this.price = price;
+		this.photoData = photoData;
+		this.detail = detail;
+		this.user = user;
+	}
+
+
+
 	public Long getProductid() {
 		return productid;
 	}
 
-	public void setProductid(Long poductid) {
-		this.productid = poductid;
+
+	public void setProductid(Long productid) {
+		this.productid = productid;
 	}
+
 
 	public String getProductname() {
 		return productname;
 	}
 
+
 	public void setProductname(String productname) {
 		this.productname = productname;
 	}
+
 
 	public String getPrice() {
 		return price;
 	}
 
+
 	public void setPrice(String price) {
 		this.price = price;
 	}
+
 
 	public byte[] getPhotoData() {
 		return photoData;
 	}
 
+
 	public void setPhotoData(byte[] photoData) {
 		this.photoData = photoData;
 	}
+
 
 	public String getDetail() {
 		return detail;
 	}
 
+
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+
 
 	public User getUser() {
 		return user;
 	}
 
+
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+    
 	
 	
 

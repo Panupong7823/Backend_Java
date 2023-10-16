@@ -23,8 +23,14 @@ public class Booking {
 	private Product product;
 
 	@ManyToOne
-	@JoinColumn(name = "userID")
+	@JoinColumn(name = "userid")
 	private User user;
+	
+	
+
+	public Booking() {
+		super();
+	}
 
 	public Booking(Long reviewID, String date_book, String date_reciept, Product product, User user) {
 		super();
