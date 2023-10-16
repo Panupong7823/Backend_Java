@@ -6,16 +6,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import reserve.model.Product;
 import reserve.model.User;
 import reserve.repository.UserRepository;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UserController {
 	
 	@Autowired
@@ -27,6 +32,26 @@ public class UserController {
 		try {
 			List<User> Users = userRepository.findAll();
 			return new ResponseEntity<>(Users, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>("Internal server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	@GetMapping("/user/{userID}")
+	public ResponseEntity<Object> getUsersById(@PathVariable("userID") Long userID) {
+
+		try {
+			Optional<User> userFind = userRepository.findById(userID);
+
+			if (userFind.isPresent()) {
+				User user = userFind.get();
+				
+				return new ResponseEntity<>( user, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>("User Not Found.", HttpStatus.BAD_REQUEST);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return new ResponseEntity<>("Internal server error.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -46,6 +71,37 @@ public class UserController {
 		}
 
 	}
+	@PutMapping("/user/{userID}")
+	public ResponseEntity<Object> updateUserData(@PathVariable("userID") Long userID, @RequestBody User body) {
+	    try {
+	        Optional<User> userFound = userRepository.findById(userID);
+
+	        if (userFound.isPresent()) {
+	            User userToUpdate = userFound.get();
+
+	            userToUpdate.setFirstname(body.getFirstname());
+	            userToUpdate.setLastname(body.getLastname());
+	            userToUpdate.setTel(body.getTel());
+	            userToUpdate.setAddress(body.getAddress());
+	            userToUpdate.setProvince(body.getProvince());
+
+	            if (body.getPassword() != null) {
+	                userToUpdate.setPassword(body.getPassword());
+	            }
+
+	            userRepository.save(userToUpdate);
+
+	            return new ResponseEntity<>(userToUpdate, HttpStatus.OK);
+	        } else {
+	            return new ResponseEntity<>("User Not Found.", HttpStatus.BAD_REQUEST);
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<>("Internal server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+
+	
 	@GetMapping("/checkUsername")
 	public ResponseEntity<Object> checkUsername(@RequestParam("username") String username) {
 
@@ -73,13 +129,14 @@ public class UserController {
 			if (userRepository.findByUsername(body.getUsername()).isPresent()) {
 				return new ResponseEntity<>("Username is already taken.", HttpStatus.BAD_REQUEST);
 			}
-
-			// Create a new user
 			User newUser = new User();
 			newUser.setUsername(body.getUsername());
 			newUser.setPassword(body.getPassword());
-			newUser.setName(body.getName());
+			newUser.setFirstname(body.getFirstname());
+			newUser.setLastname(body.getLastname());
 			newUser.setTel(body.getTel());
+			newUser.setAddress(body.getAddress());
+			newUser.setProvince(body.getProvince());
 			newUser.setUserType(body.getUserType());
 
 			User saveUser = userRepository.save(newUser);

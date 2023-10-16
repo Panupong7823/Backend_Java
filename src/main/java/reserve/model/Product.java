@@ -18,7 +18,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productid;
     private String productname;
-    private String price;
+    private Integer price;
+    private Integer piece;
 
     @Lob
     @Column(length = 3048576)
@@ -29,26 +30,28 @@ public class Product {
     @JoinColumn(name = "userID")
     private User user;
 
-  
-    public Product() {
-        
-    }
+	public Product() {
+		super();
+	}
 
-    public Product(Long productid, String productname, String price, byte[] photoData, String detail, User user) {
-        super();
-        this.productid = productid;
-        this.productname = productname;
-        this.price = price;
-        this.photoData = photoData;
-        this.detail = detail;
-        this.user = user;
-    }
+	public Product(Long productid, String productname, Integer price, Integer piece, byte[] photoData, String detail,
+			User user) {
+		super();
+		this.productid = productid;
+		this.productname = productname;
+		this.price = price;
+		this.piece = piece;
+		this.photoData = photoData;
+		this.detail = detail;
+		this.user = user;
+	}
+
 	public Long getProductid() {
 		return productid;
 	}
 
-	public void setProductid(Long poductid) {
-		this.productid = poductid;
+	public void setProductid(Long productid) {
+		this.productid = productid;
 	}
 
 	public String getProductname() {
@@ -59,12 +62,20 @@ public class Product {
 		this.productname = productname;
 	}
 
-	public String getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Integer price) {
 		this.price = price;
+	}
+
+	public Integer getPiece() {
+		return piece;
+	}
+
+	public void setPiece(Integer piece) {
+		this.piece = piece;
 	}
 
 	public byte[] getPhotoData() {
@@ -90,8 +101,6 @@ public class Product {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
-	
 
+	
 }
